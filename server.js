@@ -82,6 +82,7 @@ server.post('/api/projects', (req, res) => {
     projects
         .insert({ name, description })
         .then(project => {
+            console.log(project);
             res.json(project);
         })
         .catch(err => {
@@ -160,15 +161,16 @@ server.get('/api/actions/:id', (req, res) => {
 })
 
 server.post('/api/actions', (req, res) => {
-    const { project_id, description } = req.body;
+    const { project_id, description, completed, notes } = req.body;
     if(!project_id || !description){
         errorStatus(400, 'Please provide a project id and description for your action', res);
         return;
     }
     actions        
-        .insert({ project_id, description })
+        .insert({ project_id, description, completed, notes })
         .then(action => {
-            res.json({action});
+            console.log(action);
+            res.json(action);
         })
         .catch(err => {
             errorStatus(500, 'There was an error posting your action', res)
