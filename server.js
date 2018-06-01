@@ -55,7 +55,6 @@ server.get('/api/projects/:id', (req, res) => {
         .catch(err => {
             errorStatus(500, 'There was an error retrieving the project', res)
         })
-
 })
 
 server.get('/api/projects/:id/actions', (req, res) => {
@@ -140,6 +139,22 @@ server.get('/api/actions', (req, res) => {
         })
         .catch(err => {
             errorStatus(500, 'There was an error retrieving actions', res)
+        })
+})
+
+server.get('/api/actions/:id', (req, res) => {
+    actions
+        .get(req.params.id)
+        .then(action => {
+            if(!action){
+                errorStatus(404, 'The action with the specified id does not exist on our database', res);
+                return;
+            } else{
+                res.json(action)
+            }
+        })
+        .catch(err => {
+            errorStatus(500, 'There was an error retrieving the action', res)
         })
 })
 
