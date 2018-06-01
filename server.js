@@ -45,7 +45,7 @@ server.get('/api/projects/:id', (req, res) => {
         .get(req.params.id)
         .then(project => {
             console.log(project)
-            if(project.length === 0){
+            if(project === 0){
                 errorStatus(404, 'The project with the specified id does not exist on our database', res);
                 return;
             } else{
@@ -100,6 +100,7 @@ server.put("/api/projects/:id", (req, res) => {
         .then(project => {
             if(project === 0){
                 errorStatus(404, 'The project with the specified id does not exist on our database', res);
+                return;
             } else{
                 res.json(project)
             }
