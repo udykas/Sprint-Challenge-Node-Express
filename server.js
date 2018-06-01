@@ -61,6 +61,7 @@ server.post('/api/projects', (req, res) => {
     const { name, description } = req.body;
     if(!name || !description){
         errorStatus(400, 'Please provide a name and description for your project', res);
+        return;
     }
     projects
         .insert({ name, description })
@@ -69,6 +70,26 @@ server.post('/api/projects', (req, res) => {
         })
         .catch(err => {
             errorStatus(500, 'There was an error posting your project', res)
+        })
+})
+
+server.put("/api/projects/:id", (req, res) => {
+    const { name, description } = req.body;
+    if(!name || !description){
+        errorStatus(400, 'Please provide a name and description for your project', res);
+        return;
+    }
+    projects
+        .update(req.params.id, { name, description })
+        .then(project => {
+            if(project === 0){
+                errorStatus(404, 'The project with the specified id does not exist on our database', res);
+            } else{
+                res.json(project)
+            }
+        })
+        .catch(err => {
+            errorStatus(500, 'The project information could not be modified', res)
         })
 })
 
