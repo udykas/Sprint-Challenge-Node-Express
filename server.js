@@ -58,6 +58,22 @@ server.get('/api/projects/:id', (req, res) => {
 
 })
 
+server.get('/api/projects/:id/actions', (req, res) => {
+    projects
+        .getProjectActions(req.params.id)
+        .then(project => {
+            if(project.length === 0){
+                errorStatus(404, 'The actions with the specified project id do not exist on our database', res);
+                return;
+            } else{
+                res.json(project);
+            }
+        })
+        .catch(err => {
+            errorStatus(500, 'There was an error retrieving the project actions', res)
+        })
+})
+
 server.post('/api/projects', (req, res) => {
     const { name, description } = req.body;
     if(!name || !description){
