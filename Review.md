@@ -15,7 +15,12 @@ A popular helper library used to make NodeJS easier to use.
 
 ## What is Middleware?
 
-middleware is a funcion that has access to the request object (req), response object (res), and next.
+middleware is a funcion that has access to the request object (req), response object (res), and next. Middleware can:
+
+1) Execute code
+2) Change the req and res objects
+3) End req-res cycle
+4) Call next middleware function
 
 ## What is a Resource?
 
