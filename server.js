@@ -194,4 +194,19 @@ server.put("/api/actions/:id", (req, res) => {
         })
 })
 
+server.delete('/api/actions/:id', (req, res) => {
+    actions
+        .remove(req.params.id)
+        .then(action => {
+            if(action === 0){
+                errorStatus(404, 'The action with the specified id does not exist on our database', res);
+            } else{
+                res.json({ success: `Action with id ${req.params.id} has been removed from system`});
+            }
+        })
+        .catch(err => {
+            errorStatus(500, 'The action could not be removed', res);
+        })
+})
+
 server.listen(port, () => console.log(`Server is running on port ${port}`));
