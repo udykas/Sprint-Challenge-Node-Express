@@ -22,6 +22,8 @@ server.get('/', (req, res) => {
     res.send("Hello from express! Welcome to our Sprint Challenge: Projects and Actions!!");
 })
 
+//PROJECTS
+
 server.get('/api/projects', (req, res) => {
     projects
         .get()
@@ -37,5 +39,25 @@ server.get('/api/projects', (req, res) => {
             errorStatus(500, 'There was an error retrieving projects', res)
         })
 })
+
+server.get('/api/projects/:id', (req, res) => {
+    projects
+        .get(req.params.id)
+        .then(project => {
+            console.log(project)
+            if(project === 0){
+                errorStatus(404, 'The project with the specified id does not exist on our database', res);
+            } else{
+                res.json(project)
+            }
+        })
+        .catch(err => {
+            errorStatus(500, 'There was an error retrieving projects', res)
+        })
+
+})
+
+
+//ACTIONS
 
 server.listen(port, () => console.log(`Server is running on port ${port}`));
