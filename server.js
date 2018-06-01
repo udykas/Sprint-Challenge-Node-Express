@@ -22,4 +22,20 @@ server.get('/', (req, res) => {
     res.send("Hello from express! Welcome to our Sprint Challenge: Projects and Actions!!");
 })
 
+server.get('/api/projects', (req, res) => {
+    projects
+        .get()
+        .then(project => {
+            // console.log(project)
+            if(project.length === 0){
+                errorStatus(404, 'Projects not found', res)
+            } else {
+                res.json(project);
+            }
+        })
+        .catch(err => {
+            errorStatus(500, 'There was an error retrieving projects', res)
+        })
+})
+
 server.listen(port, () => console.log(`Server is running on port ${port}`));
