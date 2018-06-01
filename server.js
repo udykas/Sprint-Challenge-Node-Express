@@ -127,4 +127,20 @@ server.delete('/api/projects/:id', (req, res) => {
 
 //ACTIONS
 
+server.get('/api/actions', (req, res) => {
+    actions
+        .get()
+        .then(action => {
+            // console.log(project)
+            if(action.length === 0){
+                errorStatus(404, 'Actions not found', res)
+            } else {
+                res.json(action);
+            }
+        })
+        .catch(err => {
+            errorStatus(500, 'There was an error retrieving actions', res)
+        })
+})
+
 server.listen(port, () => console.log(`Server is running on port ${port}`));
