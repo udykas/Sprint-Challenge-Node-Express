@@ -174,4 +174,24 @@ server.post('/api/actions', (req, res) => {
         })
 })
 
+server.put("/api/actions/:id", (req, res) => {
+    const { project_id, description } = req.body;
+    if(!project_id || !description){
+        errorStatus(400, 'Please provide a project id and description for your action', res);
+        return;
+    }
+    actions
+        .update(req.params.id, { project_id, description })
+        .then(action => {
+            if(action === 0){
+                errorStatus(404, 'The action with the specified id does not exist in our database', res);
+            } else{
+                res.json(action)
+            }
+        })
+        .catch(err => {
+            errorStatus(500, 'The action information could not be modified', res)
+        })
+})
+
 server.listen(port, () => console.log(`Server is running on port ${port}`));
