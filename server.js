@@ -45,14 +45,15 @@ server.get('/api/projects/:id', (req, res) => {
         .get(req.params.id)
         .then(project => {
             console.log(project)
-            if(project === 0){
+            if(project.length === 0){
                 errorStatus(404, 'The project with the specified id does not exist on our database', res);
+                return;
             } else{
                 res.json(project)
             }
         })
         .catch(err => {
-            errorStatus(500, 'There was an error retrieving projects', res)
+            errorStatus(500, 'There was an error retrieving the project', res)
         })
 
 })
@@ -90,6 +91,21 @@ server.put("/api/projects/:id", (req, res) => {
         })
         .catch(err => {
             errorStatus(500, 'The project information could not be modified', res)
+        })
+})
+
+server.delete('/api/projects/:id', (req, res) => {
+    projects
+        .remove(req.params.id)
+        .then(project => {
+            if(project === 0){
+                errorStatus(404, 'The project with the specified id does not exist on our database', res);
+            } else{
+                res.json({ success: `Project with id ${req.params.id} has been removed from system`});
+            }
+        })
+        .catch(err => {
+            errorStatus(500, 'The project could not be removed', res);
         })
 })
 
