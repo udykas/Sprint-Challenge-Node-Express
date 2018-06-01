@@ -57,6 +57,20 @@ server.get('/api/projects/:id', (req, res) => {
 
 })
 
+server.post('/api/projects', (req, res) => {
+    const { name, description } = req.body;
+    if(!name || !description){
+        errorStatus(400, 'Please provide a name and description for your project', res);
+    }
+    projects
+        .insert({ name, description })
+        .then(project => {
+            res.json(project);
+        })
+        .catch(err => {
+            errorStatus(500, 'There was an error posting your project', res)
+        })
+})
 
 //ACTIONS
 
