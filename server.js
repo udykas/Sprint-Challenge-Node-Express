@@ -158,4 +158,20 @@ server.get('/api/actions/:id', (req, res) => {
         })
 })
 
+server.post('/api/actions', (req, res) => {
+    const { project_id, description } = req.body;
+    if(!project_id || !description){
+        errorStatus(400, 'Please provide a project id and description for your action', res);
+        return;
+    }
+    actions        
+        .insert({ project_id, description })
+        .then(action => {
+            res.json({action});
+        })
+        .catch(err => {
+            errorStatus(500, 'There was an error posting your action', res)
+        })
+})
+
 server.listen(port, () => console.log(`Server is running on port ${port}`));
