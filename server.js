@@ -11,10 +11,12 @@ const server = express();
 server.use(express.json());
 server.use(cors({ origin: 'http://localhost:3000' }));
 
+//MIDDLEWARE
 const errorStatus = (status, message, res) => {
     res.status(status).json({ errorMessage: message });
     return;
 }
+//
 
 server.get('/', (req, res) => {
     res.send("Hello from express! Welcome to our Sprint Challenge: Projects and Actions!!");
